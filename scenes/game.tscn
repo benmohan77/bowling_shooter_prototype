@@ -1,10 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://jay3mx1rfo31"]
+[gd_scene load_steps=6 format=3 uid="uid://jay3mx1rfo31"]
 
 [ext_resource type="PackedScene" uid="uid://bl8whnkr1artm" path="res://scenes/player.tscn" id="1_fxrte"]
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_t25ra"]
 [ext_resource type="Texture2D" uid="uid://b80e0inktvqch" path="res://assets/SBS - Tiny Texture Pack 2 - 128x128/128x128/Wood/Wood_20-128x128.png" id="2_0of7e"]
 [ext_resource type="Texture2D" uid="uid://gluuwc71mojb" path="res://assets/textures/lane.tres" id="2_wdirm"]
+[ext_resource type="PackedScene" uid="uid://bdw4b7l5hx372" path="res://scenes/gutter.tscn" id="4_m8uyv"]
 
 [node name="Game" type="Node2D"]
+
+[node name="GameManager" type="Node" parent="."]
+script = ExtResource("1_t25ra")
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 repeat_size = Vector2(0, 128)
@@ -30,11 +35,20 @@ texture = ExtResource("2_wdirm")
 [node name="Player" parent="." instance=ExtResource("1_fxrte")]
 position = Vector2(960, 850)
 collision_layer = 2
+max_health = 3
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Boundary" type="StaticBody2D" parent="."]
 position = Vector2(960, 850)
 collision_mask = 2
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Boundary"]
 build_mode = 1
 polygon = PackedVector2Array(-400, -250, 400, -250, 400, 225, -400, 225)
+
+[node name="Left Gutter" parent="." instance=ExtResource("4_m8uyv")]
+position = Vector2(650, 837)
+
+[node name="Right Gutter" parent="." instance=ExtResource("4_m8uyv")]
+position = Vector2(1250, 837)
+
+[connection signal="dead" from="Player" to="GameManager" method="_on_player_dead"]
