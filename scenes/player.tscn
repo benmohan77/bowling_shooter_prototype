@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://bl8whnkr1artm"]
+
+[ext_resource type="Script" path="res://scenes/player.gd" id="1_efkqw"]
+[ext_resource type="Texture2D" uid="uid://bs2bd0lk4m66g" path="res://assets/Sport-Balls-Asset-Pack-Pixel-Art/64x64/bowling.png" id="2_hv5up"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imtau"]
+atlas = ExtResource("2_hv5up")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jdtiu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imtau")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ud84s"]
+radius = 32.0156
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_efkqw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jdtiu")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ud84s")

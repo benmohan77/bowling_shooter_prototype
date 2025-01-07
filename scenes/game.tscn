@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://jay3mx1rfo31"]
+
+[ext_resource type="PackedScene" uid="uid://bl8whnkr1artm" path="res://scenes/player.tscn" id="1_fxrte"]
+[ext_resource type="Texture2D" uid="uid://b80e0inktvqch" path="res://assets/SBS - Tiny Texture Pack 2 - 128x128/128x128/Wood/Wood_20-128x128.png" id="2_0of7e"]
+[ext_resource type="Texture2D" uid="uid://gluuwc71mojb" path="res://assets/textures/lane.tres" id="2_wdirm"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+repeat_size = Vector2(0, 128)
+autoscroll = Vector2(0, 400)
+repeat_times = 10
+ignore_camera_scroll = true
+
+[node name="Lane" type="Sprite2D" parent="Parallax2D"]
+texture_repeat = 2
+position = Vector2(960, 540)
+texture = ExtResource("2_0of7e")
+region_enabled = true
+region_rect = Rect2(0, 0, 512, 128)
+
+[node name="Left Bumper" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(650, 540)
+texture = ExtResource("2_wdirm")
+
+[node name="Right Bumper" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(1250, 540)
+texture = ExtResource("2_wdirm")
+
+[node name="Player" parent="." instance=ExtResource("1_fxrte")]
+position = Vector2(960, 850)
+collision_layer = 2
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(960, 850)
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+build_mode = 1
+polygon = PackedVector2Array(-400, -250, 400, -250, 400, 225, -400, 225)
