@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://jay3mx1rfo31"]
+[gd_scene load_steps=8 format=3 uid="uid://jay3mx1rfo31"]
 
 [ext_resource type="PackedScene" uid="uid://bl8whnkr1artm" path="res://scenes/player.tscn" id="1_fxrte"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_t25ra"]
 [ext_resource type="Texture2D" uid="uid://b80e0inktvqch" path="res://assets/SBS - Tiny Texture Pack 2 - 128x128/128x128/Wood/Wood_20-128x128.png" id="2_0of7e"]
 [ext_resource type="Texture2D" uid="uid://gluuwc71mojb" path="res://assets/textures/lane.tres" id="2_wdirm"]
 [ext_resource type="PackedScene" uid="uid://bdw4b7l5hx372" path="res://scenes/gutter.tscn" id="4_m8uyv"]
+[ext_resource type="PackedScene" uid="uid://dj0odc1dg4421" path="res://scenes/pin_boss.tscn" id="6_e4slk"]
+[ext_resource type="Script" path="res://scenes/pin_boss.gd" id="7_r0xsv"]
 
 [node name="Game" type="Node2D"]
 
@@ -24,18 +26,17 @@ texture = ExtResource("2_0of7e")
 region_enabled = true
 region_rect = Rect2(0, 0, 512, 128)
 
-[node name="Left Bumper" type="Sprite2D" parent="Parallax2D"]
+[node name="Left Gutter" type="Sprite2D" parent="Parallax2D"]
 position = Vector2(650, 540)
 texture = ExtResource("2_wdirm")
 
-[node name="Right Bumper" type="Sprite2D" parent="Parallax2D"]
+[node name="Right Gutter" type="Sprite2D" parent="Parallax2D"]
 position = Vector2(1250, 540)
 texture = ExtResource("2_wdirm")
 
 [node name="Player" parent="." instance=ExtResource("1_fxrte")]
 position = Vector2(960, 850)
 collision_layer = 2
-max_health = 3
 
 [node name="Boundary" type="StaticBody2D" parent="."]
 position = Vector2(960, 850)
@@ -50,5 +51,10 @@ position = Vector2(650, 837)
 
 [node name="Right Gutter" parent="." instance=ExtResource("4_m8uyv")]
 position = Vector2(1250, 837)
+
+[node name="PinBoss" parent="." instance=ExtResource("6_e4slk")]
+position = Vector2(960, 172)
+scale = Vector2(4, 4)
+script = ExtResource("7_r0xsv")
 
 [connection signal="dead" from="Player" to="GameManager" method="_on_player_dead"]
