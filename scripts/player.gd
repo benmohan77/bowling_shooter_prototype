@@ -11,7 +11,7 @@ var stunned: bool = false
 #var boosting: bool = false
 #var boost_cooldown: bool = false
 
-signal player_damaged(damage: int)
+signal player_health_changed(new_health: int, change: int)
 signal dead()
 
 #func _unhandled_input(event: InputEvent) -> void:
@@ -34,14 +34,20 @@ func _physics_process(delta: float) -> void:
 		velocity = direction * MULTIPLIER
 		#if boosting:
 			#velocity = velocity + BOOST_SPEED
+	else:
+		velocity = Vector2(0, 0)
 
 	move_and_slide()
 	
 func damage_player(damage: int) -> void:
+	print("-" + str(damage) + "hp")
 	health -= damage
-	player_damaged.emit(damage)
+	player_health_changed.emit(health, -damage)
 	if health <= 0:
 		dead.emit()
+		
+func crack_hit():
+	stun(1.0)
 		
 func bullet_hit():
 	damage_player(1)

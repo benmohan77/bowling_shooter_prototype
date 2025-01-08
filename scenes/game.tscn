@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://jay3mx1rfo31"]
+[gd_scene load_steps=10 format=3 uid="uid://jay3mx1rfo31"]
 
 [ext_resource type="PackedScene" uid="uid://bl8whnkr1artm" path="res://scenes/player.tscn" id="1_fxrte"]
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_t25ra"]
@@ -6,12 +6,21 @@
 [ext_resource type="Texture2D" uid="uid://gluuwc71mojb" path="res://assets/textures/lane.tres" id="2_wdirm"]
 [ext_resource type="PackedScene" uid="uid://bdw4b7l5hx372" path="res://scenes/gutter.tscn" id="4_m8uyv"]
 [ext_resource type="PackedScene" uid="uid://dj0odc1dg4421" path="res://scenes/pin_boss.tscn" id="6_e4slk"]
-[ext_resource type="Script" path="res://scenes/pin_boss.gd" id="7_r0xsv"]
+[ext_resource type="Script" path="res://scripts/ui.gd" id="7_ogdt6"]
+
+[sub_resource type="FontVariation" id="FontVariation_rlogl"]
+spacing_glyph = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_ookbn"]
+font = SubResource("FontVariation_rlogl")
+font_size = 64
 
 [node name="Game" type="Node2D"]
 
 [node name="GameManager" type="Node" parent="."]
 script = ExtResource("1_t25ra")
+
+[node name="Timer" type="Timer" parent="GameManager"]
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 repeat_size = Vector2(0, 128)
@@ -55,6 +64,24 @@ position = Vector2(1250, 837)
 [node name="PinBoss" parent="." instance=ExtResource("6_e4slk")]
 position = Vector2(960, 172)
 scale = Vector2(4, 4)
-script = ExtResource("7_r0xsv")
+
+[node name="UI" type="Node" parent="."]
+script = ExtResource("7_ogdt6")
+
+[node name="Panel" type="Panel" parent="UI"]
+offset_left = 1639.0
+offset_top = 17.0
+offset_right = 1826.0
+offset_bottom = 107.0
+
+[node name="Health" type="Label" parent="UI/Panel"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 1.0
+offset_right = 177.0
+offset_bottom = 91.0
+text = "XXX"
+label_settings = SubResource("LabelSettings_ookbn")
 
 [connection signal="dead" from="Player" to="GameManager" method="_on_player_dead"]
+[connection signal="player_health_changed" from="Player" to="UI" method="_on_player_player_health_changed"]
